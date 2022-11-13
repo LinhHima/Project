@@ -1,0 +1,114 @@
+<template>
+    <div style="margin:10px; margin-left: 50%; transform: translateX(-50%);">
+         <!-- title -->
+    <h1 align="center">
+        <strong style="font-size: 18pt;">仮登録内容のご確認</strong> 
+     </h1>
+     <hr align="center" class="firsthr" />
+     <!-- explanantion 1 -->
+     <p>
+        以下の情報で仮登録を行います。
+        <br>
+        よろしければ[仮登録] を押してください。
+        <br>
+        仮登録後、登録されたメールアドレスに送信された本登録用メールを確認してください。
+        <br>
+        「@sokaid.jp」からメールが送られます。
+        <br>
+     </p>
+     <br/>
+    
+     <!-- The confirmation email -->
+     <div>
+        <p>SOKA ID （メールアドレス）</p>
+        <p style="margin-bottom: -2em;">{userInfo.emailValue}</p>
+        <hr align="center" />
+     </div>
+   
+    <!-- The confirmation password -->
+    <div>
+        <p>パスワード</p>
+        <p style="margin-bottom: -2em;">{userInfo.hiddenPassword}</p>
+        <hr align="center" />
+     </div>
+   
+    <!-- The confirmation for choosing Japanses or Alphabet -->
+
+    <!-- if choose Japanese -->
+    <div>
+        <template if:true={userInfo.japaneseVisible}>
+            <p>姓</p>
+            <p style="margin-bottom: -2em;">{userInfo.surnameValue}</p>
+            <hr align="center" />
+    
+            <p>名</p>
+            <p style="margin-bottom: -2em;">{userInfo.nameValue}</p>
+            <hr align="center" />
+    
+            <p>姓（カナ）</p>
+            <p style="margin-bottom: -2em;">{userInfo.surnameKanaValue}</p>
+            <hr align="center" />
+            
+            <p>名（カナ）</p>
+            <p style="margin-bottom: -2em;">{userInfo.firstNameKanaValue}</p>
+            <hr align="center" />
+        </template>
+    
+        <!-- if choose Alphabet -->
+        <template if:false={userInfo.japaneseVisible}>
+            <p>LastName</p>
+            <p style="margin-bottom: -2em;">{userInfo.lastNameValue}</p>
+            <hr align="center" />
+            
+            <p>FirstName</p>
+            <p style="margin-bottom: -2em;">{userInfo.firstNameValue}</p>
+            <hr align="center" />
+        </template>
+    </div>
+   
+    <!-- Confirmation the date-time -->
+    <div>
+        <p>生年月日</p>
+        <div class="flex-container" style="margin-bottom: -3em;">
+            <p style="margin-bottom: -2em;">{userInfo.valueYear}</p>
+            <p style="margin-left: 1rem;">年</p>
+            <p style="margin-left: 1rem;">{userInfo.valueMonth}</p>
+            <p style="margin-left: 1rem;">月</p>
+            <p style="margin-left: 1rem;">{userInfo.valueDay}</p>
+            <p style="margin-left: 1rem;">日</p>
+        </div>
+        <hr align="center" />
+    </div>
+
+    <!-- Choose the mobile phone -->
+    <!-- if choose Japanese -->
+    <p>携帯電話番号</p>
+    <template if:true={userInfo.isPhoneJapanese1}>
+        <p>{userInfo.countryCode1Value}</p>
+        <p style="margin-bottom: -2em;">{userInfo.firstNumberPhoneJpn1} - {userInfo.secondNumberPhoneJpn1} - {userInfo.thirdNumberPhoneJpn1}</p>
+    </template>
+    <template if:false={userInfo.isPhoneJapanese1}>
+        <p>{userInfo.countryCode1Value}</p>
+        <p style="margin-bottom: -2em;">{userInfo.numberPhone1}</p>
+    </template>
+    <hr align="center" />
+
+    <!-- Choose home phone (not required) -->
+    <p>その他の電話番号（任意）</p>
+    <template if:true={userInfo.isPhoneJapanese2}>
+        <p>{userInfo.countryCode2Value}</p>
+        <p style="margin-bottom: -2em;">{userInfo.firstNumberJpn2} - {userInfo.secondNumberJpn2} - {userInfo.thirdNumberJpn2}</p>
+    </template>
+    <template if:false={userInfo.isPhoneJapanese2}>
+        <p>{userInfo.countryCode2Value}</p>
+        <p style="margin-bottom: -2em;">{userInfo.numberPhone2}</p>
+    </template>
+    <hr align="center" />
+
+    <!-- button area return or Proceed to confirmation screen-->
+   <div style="float: right;">
+    <lightning-button variant="brand-outline" label="戻る" title="return" style="margin-right: 1.5rem;" onclick={switchBackInputScreen}></lightning-button>
+    <lightning-button variant="brand" label="仮登録" title="provisional registration" onclick={saveTemporaryUserAction}></lightning-button>
+   </div>
+</div>
+</template>

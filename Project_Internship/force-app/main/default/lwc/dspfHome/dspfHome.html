@@ -1,0 +1,51 @@
+<template>
+    <template if:true={isScreenOn1}>
+        <!-- From screen Term of use sending screenNo = 2 -->
+        <c-term-of-use-screen 
+                        
+        onscreen1switchtoscreen2={handleChangeScreen1ToScreen2}></c-term-of-use-screen>
+    </template>
+
+    <template if:true={isScreenOn2}>
+        <!-- From screen Input sending screenNo = 3 and object userInfo
+             Sending back event switchTermOfUseScreen-->
+        <c-temporary-registration-input-screen 
+        email-value = {userInfo.emailValue}
+        confirm-email-value = {userInfo.confirmEmailValue}
+        password-value = {userInfo.passwordValue}
+        confirm-password-value = {userInfo.confirmPasswordValue}
+        hidden-password = {userInfo.hiddenPassword}
+        japanese-visible = {userInfo.japaneseVisible}
+        surname-value = {userInfo.surnameValue}
+        name-value = {userInfo.nameValue}
+        surname-kana-value = {userInfo.surnameKanaValue}
+        first-name-kana-value = {userInfo.firstNameKanaValue}
+        last-name-value = {userInfo.lastNameValue}
+        first-name-value = {userInfo.firstNameValue}
+        value-year = {userInfo.valueYear}
+        value-month = {userInfo.valueMonth}
+        value-day = {userInfo.valueDay}
+        country-code1-value = {userInfo.countryCode1Value}
+        is-phone-japanese1 = {userInfo.isPhoneJapanese1}
+        first-number-phone-jpn1 = {userInfo.firstNumberPhoneJpn1}
+        second-number-phone-jpn1 = {userInfo.secondNumberPhoneJpn1}
+        third-number-phone-jpn1 = {userInfo.thirdNumberPhoneJpn1}
+        country-code2-value = {userInfo.countryCode2Value}
+        is-phone-japanese2 = {userInfo.isPhoneJapanese2}
+        first-number-jpn2 = {userInfo.firstNumberJpn2}
+        second-number-jpn2 = {userInfo.secondNumberJpn2}
+        third-numbe-jpn2 = {userInfo.thirdNumberJpn2}
+        number-phone1 = {userInfo.numberPhone1}
+        number-phone2 = {userInfo.numberPhone2}
+        onswitchtermscreen={handleChangeScreen2ToScreen1} onswitchconfirmscreen={handleChangeScreen2ToScreen3}></c-temporary-registration-input-screen>
+    </template>
+
+    <template if:true={isScreenOn3}>
+        <c-temporary-registration-confirmation-screen user-info={userInfo} onswitchregistrationcompletionscreen={handleChangeScreen3ToScreen4} onbackinputscreen={handleChangeScreen3ToScreen2}></c-temporary-registration-confirmation-screen>
+    </template>
+
+    <template if:true={isScreenOn4}>
+        <c-registration-completion-screen email={userInfo.emailValue}></c-registration-completion-screen>
+    </template>
+    
+</template>

@@ -1,0 +1,330 @@
+<template>
+    <div style="margin:10px; margin-left: 50%; transform: translateX(-50%);">
+         <!-- title -->
+        <h1 align="center">
+            <strong style="font-size: 18pt;">SOKA ID の仮登録をする</strong> 
+        </h1>
+     <hr align="center" />
+     <br/>
+     <!-- explanantion 1 -->
+     <p>
+        SOKA IDの新規登録を行います。
+        <br>
+        以下に登録する情報を入力してください。
+     </p>
+     <br/>
+     <br/>
+     <!-- Input the value email -->
+     <lightning-input 
+     type="email" 
+     label="SOKA ID（メールアドレス）を入力してください" 
+     value={emailValue}
+     style="margin-bottom: 0;"
+     field-level-help="迷惑メールの対策などでドメイン指定をされている方は、
+     メールが受信できない場合がございます。
+     メールを受信できるよう「@sokaid.jp」を受信設定してください。"
+     placeholder="type here..." 
+     pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"
+     onfocusout={handleCheckSOKAID}
+     required></lightning-input>
+     <template if:true={showInfoEmail}>
+        <template if:true={enableEmail}>
+            <label style="font-size:small; color:aquamarine ; margin-top: 0em;">
+                発売中の SOKAID</label>
+         </template>
+         <template if:false={enableEmail}>
+            <label style="font-size:small; color:crimson; margin-top: 0em;">
+                重複する SOKAID</label>
+         </template>
+     </template>
+     
+     <br/>
+
+    <!-- Confirm the email -->
+    <lightning-input 
+    type="email" 
+    label="SOKA ID（メールアドレス）を入力してください
+    (確認用)" 
+    value={confirmEmailValue}
+    placeholder="type here..." 
+    style="margin-bottom: 0;"
+    onfocusout={handleConfirmEmail}
+    required></lightning-input>
+    <template if:true={showInfoConfirmEmail}>
+        <template if:true={enableConfirmEmail}>
+            <label style="font-size:small; color:aquamarine">
+                マッチ SOKAID</label>
+         </template>
+         <template if:false={enableConfirmEmail}>
+            <label style="font-size:small; color:crimson">
+            SOKAID と一致しません</label>
+         </template>
+    </template>
+     <br/>
+     <br/>
+
+    <!-- Input the password -->
+    <label for="passwordId">
+        <span style="color: #C23934;">*</span>パスワード</label>
+    <p>
+        ※パスワードのルールは以下となります。<br>
+        ●8文字以上かつ20文字以内 <br>
+        ●少なくとも１つの英字、１つの数字、１つの特殊文字を含む <br>
+        ※特殊文字は32種類です。<br>
+    </p>
+    <lightning-input 
+    type="password" id="passwordId"
+    value={passwordValue}
+    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
+    placeholder="type here..." 
+    style="margin-bottom: 0;"
+    onfocusout={handlePassword}
+    label="! &quot; # $ % &amp; ' ( ) * + , -. / : ; &lt; = &gt; ? @ [ ¥] ^ _ ` { | } ~"
+    ></lightning-input>
+    <br/>
+
+    <!-- Confirm the password -->
+    <lightning-input 
+    type="password" 
+    label="パスワード （確認のためもう一度入力してください。）" 
+    value={confirmPasswordValue}
+    placeholder="type here..." 
+    onfocusout={handleConfirmPassword}
+    style="margin-bottom: 0;"
+    required></lightning-input>
+    <template if:true={showInfoConfirmPassword}>
+        <template if:true={enableConfirmPassword}>
+            <label style="font-size:small; color:aquamarine">
+                一致パスワード</label>
+         </template>
+         <template if:false={enableConfirmPassword}>
+            <label style="font-size:small; color:crimson">
+                パスワードが一致しません</label>
+         </template>
+    </template>
+    <br/>
+    <br/>
+    <!-- Checkbox for choosing Japanses or Alphabet -->
+    <lightning-radio-group name="radioGroup"
+    variant="label-hidden"
+    options={options}
+    value={value}
+    onchange={handleChangeButton}
+    type="radio"></lightning-radio-group>
+
+    <!-- if choose Japanese -->
+    <template if:true={japaneseVisible}>
+        <lightning-input 
+        type="text" 
+        label="姓"
+        value={surnameValue}
+        onfocusout={handleSurname}
+        placeholder="type here..." 
+        required></lightning-input>
+
+        <lightning-input 
+        type="text" 
+        label="名"
+        value={nameValue}
+        onfocusout={handleName}
+        placeholder="type here..." 
+        required></lightning-input>
+
+        <lightning-input 
+        type="text" 
+        label="姓（カナ）　全角で入力してください"
+        value={surnameKanaValue}
+        onfocusout={handleSurnameKana}
+        placeholder="type here..." 
+        required></lightning-input>
+
+        <lightning-input 
+        type="text" 
+        label="名（カナ）　全角で入力してください"
+        onfocusout={handleFirstnameKana}
+        value={firstNameKanaValue}
+        placeholder="type here..." 
+        required></lightning-input>
+    </template>
+
+    <!-- if choose Alphabet -->
+    <template if:false={japaneseVisible}>
+        <lightning-input 
+        type="text" 
+        label="LastName"
+        field-level-help="ミドルネームをお持ちの場合は、
+        [FirstName]の欄にファーストネームに続けてミドルネームをご入力ください。
+        ファーストネームとミドルネームの間にスペースは入れないようにお願いします。"
+        onfocusout={handleLastName}
+        value={lastNameValue}
+        placeholder="type here..." 
+        required></lightning-input>
+
+        <lightning-input 
+        type="text" 
+        label="FirstName"
+        onfocusout={handleFirstName}
+        value={firstNameValue}
+        placeholder="type here..." 
+        required></lightning-input>
+    </template>
+    <br/>
+    <br/>
+    <!-- Choose date-time -->
+    <label>
+        <span style="color: #C23934;">*</span>生年月日</label>
+    <div class="flex-container" >
+        <lightning-combobox
+        style="margin-bottom: 0;"
+        variant="label-hidden"
+        value={valueYear}
+        placeholder="Select Year"
+        options={optionYear}
+        onchange={handleChangeYear} ></lightning-combobox>
+
+        <label style="margin-left: 1rem;">年</label>
+
+        <lightning-combobox
+        style="margin-bottom: 0; margin-left: 1rem;"
+        variant="label-hidden"
+        value={valueMonth}
+        placeholder="Select Month"
+        options={optionMonth}
+        onchange={handleChangeMonth} ></lightning-combobox>
+
+        <label style="margin-left: 1rem;">月</label>
+
+        <lightning-combobox
+        style="margin-bottom: 0; margin-left: 1rem;"
+        variant="label-hidden"
+        value={valueDay}
+        placeholder="Select Day"
+        options={optionDay}
+        onchange={handleChangeDay} ></lightning-combobox>
+
+        <label style="margin-left: 1rem;">日</label>
+    </div>
+    <br/>
+    <!-- Choose the mobile phone -->
+    <lightning-combobox
+        label="携帯電話番号"
+        placeholder="Select mobile phone"
+        options={countryCode1Options}
+        value={countryCode1Value}
+        onchange={handleChangePhone1} 
+        required></lightning-combobox>
+        <div>
+            <div class="flex-container" style="justify-content: space-between;padding-bottom:0em;">
+                <template if:true={isPhoneJapanese1}>
+                    <lightning-input 
+                    type="text" 
+                    onfocusout={handlefirstNumberPhoneJpn1}
+                    max-length=3
+                    min-length=3
+                    value={firstNumberPhoneJpn1}
+                    required
+                    variant="label-hidden"></lightning-input>
+                    <label style="font-size: 3rem;
+                    position: relative;
+                    top: -20px;
+                    margin: 0 0.25em;">-</label>
+                    <lightning-input 
+                    type="text" 
+                    onfocusout={handlesecondNumberPhoneJpn1}
+                    value={secondNumberPhoneJpn1}
+                    max-length=4
+                    min-length=4
+                    required
+                    variant="label-hidden"></lightning-input>
+                    <label style="font-size: 3rem;
+                    position: relative;
+                    top: -20px;
+                    margin: 0 0.25em;">-</label>
+                    <lightning-input 
+                    type="text" 
+                    onfocusout={handlethirdNumberPhoneJpn1}
+                    value={thirdNumberPhoneJpn1}
+                    max-length=4
+                    min-length=4
+                    required
+                    variant="label-hidden"></lightning-input>
+                </template>
+            </div>
+            <div>
+                <template if:false={isPhoneJapanese1}>
+                    <lightning-input 
+                    type="text" 
+                    value={numberPhone1}
+                    onfocusout={handlenumberPhone1}
+                    required
+                    variant="label-hidden"></lightning-input>
+                </template>
+            </div>
+             <p>※携帯電話をお持ちでない方は、</p>
+            <p>ご自宅の電話番号を入力してください</p>
+    </div>
+    <br/>
+    <br/>
+    <!-- Choose home phone-->
+    <lightning-combobox 
+        label="その他の電話番号（任意）"
+        placeholder="Select home phone"
+        options={countryCode2Options}
+        value={countryCode2Value}
+        onchange={handleChangePhone2} 
+        required
+        ></lightning-combobox>
+        <div class="flex-container" style="justify-content: space-between;padding-bottom:0em;">
+            <template if:true={isPhoneJapanese2}>
+                <lightning-input 
+                type="text" 
+                onfocusout={handlefirstNumberJpn2}
+                required
+                variant ="label-hidden"
+                max-length=3
+                min-length=3
+                value={firstNumberJpn2}
+                ></lightning-input>
+                <label style="font-size: 3rem;
+                position: relative;
+                top: -20px;
+                margin: 0 0.25em;">-</label>
+                <lightning-input 
+                type="text" 
+                onfocusout={handlesecondNumberJpn2}
+                max-length=4
+                min-length=4
+                value={secondNumberJpn2}
+                required
+                variant="label-hidden"></lightning-input>
+                <label style="font-size: 3rem;
+                position: relative;
+                top: -20px;
+                margin: 0 0.25em;">-</label>
+                <lightning-input 
+                type="text" 
+                onfocusout={handlethirdNumberJpn2}
+                max-length=4
+                min-length=4
+                value={thirdNumberJpn2}
+                required
+                variant="label-hidden"></lightning-input>
+            </template>
+        </div>
+        <div>
+            <template if:false={isPhoneJapanese2}>
+                <lightning-input 
+                type="text" 
+                value={numberPhone2}
+                onfocusout={handlenumberPhone2}
+                required
+                variant="label-hidden"></lightning-input>
+            </template>
+        </div>
+    <!-- button area return or Proceed to confirmation screen-->
+   <div style="float: right;">
+    <lightning-button  variant="brand-outline" label="戻る" title="return" style="margin-right: 1.5rem;" onclick={switchTermOfUseScreen}></lightning-button>
+    <lightning-button  variant="brand" label="確認画面へ進む" title="Proceed to confirmation screen" onclick={switchTempConfirmScreen}></lightning-button>
+   </div>
+</div>
+</template>

@@ -1,0 +1,58 @@
+<template>
+    <lightning-card> 
+        <div>
+            <table class="table_search">
+                <tr>
+                  <td class="spacing_right">
+                    <lightning-input onchange={handleChangeName} type="text" label="Account Name" required="true" value={accountnameValue}></lightning-input>
+                  </td>
+                  <td class="spacing_left">
+                    <lightning-input onchange={handleChangeNumber} type="text" label="Account Number" value={accountnumberValue}></lightning-input>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="spacing_right">
+                    <lightning-input onchange={handleChangePhone} type="text" label="Phone" value={phoneValue}></lightning-input>
+                </td>
+                  <td class="spacing_left">
+                    <lightning-combobox
+                    name="Industry"
+                    label="Industry"
+                    value={industryOptionsValue}
+                    placeholder="Select Industry"
+                    options={industryOptions}
+                    onchange={handleChange}
+                   ></lightning-combobox>
+                  </td>
+                </tr>
+              </table>
+        </div>
+        <div class="button_area">
+            <lightning-button variant="brand" label="Search" title="searchAccount" onclick={handleClick}></lightning-button>
+        </div>
+        <div>
+            <table class="table_result">
+                <tr>
+                  <th>Account Name</th>
+                  <th>Account Number</th>
+                  <th>Phone</th>
+                  <th>Industry</th>
+                  <th>Annual Revenue</th>
+                  <th>Fax</th>
+                  <th>Rating</th>
+                </tr>
+                <template for:each={arrayAccount} for:item='account'>
+                  <tr key={account.id}>
+                    <td class="td_align">{account.Name}</td>
+                    <td class="td_align">{account.AccountNumber}</td>
+                    <td class="td_align">{account.Phone}</td>
+                    <td class="td_align">{account.Industry}</td>
+                    <td class="td_align">{account.AnnualRevenue}</td>
+                    <td class="td_align">{account.Fax}</td>
+                    <td class="td_align">{account.Rating}</td>
+                  </tr>
+                </template>
+              </table>
+        </div>
+    </lightning-card>
+</template>

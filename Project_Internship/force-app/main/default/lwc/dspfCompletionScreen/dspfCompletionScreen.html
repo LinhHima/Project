@@ -1,0 +1,11 @@
+<template>
+    <template if:true={isScreenSuccess}>
+        <!-- Switch to screen success -->
+        <c-main-registration-completion-screen ></c-main-registration-completion-screen>
+    </template>
+
+    <template if:true={isScreenError}>
+        <c-registration-error-screen ></c-registration-error-screen>
+    </template>
+
+</template>

@@ -1,0 +1,38 @@
+.table_search{
+    width: 90%;
+    margin-left: 1rem;
+}
+
+.spacing_left{
+    padding-left: 30px;
+}
+
+.spacing_right{
+    padding-right: 30px;
+}
+
+.button_area{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    width: 90%;
+}
+
+.table_result {
+    width: 90%;
+    margin-left: 1rem;
+    margin-top: 2rem;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th{
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+.td_align{
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
